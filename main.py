@@ -6,7 +6,7 @@
 # ==========================================
 
 # ---------------------------------------------------------
-# 1. LIBRARIES & SETUP (Lecture 1)
+# 1. LIBRARIES & SETUP
 # ---------------------------------------------------------
 import pandas as pd
 import numpy as np
@@ -19,7 +19,7 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-# Models (Aligning with Lectures 2, 4, 5, 6, 7)
+# Models
 from sklearn.linear_model import LinearRegression, Lasso, LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -27,7 +27,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier, GradientBoostingRegressor
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 
-# XGBoost (Lecture 6 - Boosting)
+# XGBoost
 try:
     import xgboost as xgb
 except ImportError:
@@ -42,10 +42,9 @@ plt.rcParams['figure.figsize'] = (10, 6)
 print("Libraries loaded successfully.")
 
 # ---------------------------------------------------------
-# 2. DATA LOADING & PREPROCESSING (Lecture 1 & 5)
+# 2. DATA LOADING & PREPROCESSING
 # ---------------------------------------------------------
 # Load Dataset
-# NOTE: Ensure 'Sleep_Efficiency.csv' is uploaded to Colab
 try:
     df = pd.read_csv('Sleep_Efficiency.csv')
     print("Dataset Loaded. Shape:", df.shape)
@@ -53,7 +52,7 @@ except FileNotFoundError:
     print("ERROR: Please upload 'Sleep_Efficiency.csv' to the Colab environment.")
 
 # --- Data Cleaning ---
-# Handling Missing Values (Lecture 5 - Preprocessing)
+# Handling Missing Values
 # Fill numerical NaNs with mean/median, categorical with mode
 df['Awakenings'] = df['Awakenings'].fillna(df['Awakenings'].median())
 df['Caffeine consumption'] = df['Caffeine consumption'].fillna(0) # Assuming NaN means 0
@@ -65,7 +64,7 @@ if 'ID' in df.columns:
     df = df.drop('ID', axis=1)
 
 # --- Feature Engineering ---
-# Encoding Categorical Variables (Lecture 7 - One-Hot/Dummy Encoding)
+# Encoding Categorical Variables
 # 'Smoking status' and 'Gender' need to be numeric
 df = pd.get_dummies(df, columns=['Gender', 'Smoking status'], drop_first=True)
 
@@ -78,7 +77,7 @@ print("\nData Preprocessing Complete.")
 display(df.head())
 
 # ---------------------------------------------------------
-# 3. EXPLORATORY DATA ANALYSIS (Lecture 2 - Correlation)
+# 3. EXPLORATORY DATA ANALYSIS
 # ---------------------------------------------------------
 plt.figure(figsize=(12, 8))
 sns.heatmap(df.corr(), annot=True, fmt=".2f", cmap='coolwarm')
@@ -98,10 +97,10 @@ target = 'Sleep efficiency'
 X = df.drop(target, axis=1)
 y = df[target]
 
-# Train/Test Split (Lecture 2/5)
+# Train/Test Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Feature Scaling (Lecture 5 - Important for Lasso & Neural Nets)
+# Feature Scaling
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
@@ -109,10 +108,10 @@ X_test_scaled = scaler.transform(X_test)
 # Define Models dictionary
 reg_models = {
     "Linear Regression": LinearRegression(),
-    "Lasso (L1 Regularization)": Lasso(alpha=0.001), # Lecture 5
-    "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42), # Lecture 6
-    "XGBoost": xgb.XGBRegressor(objective='reg:squarederror', random_state=42), # Lecture 6
-    "Neural Network (MLP)": MLPRegressor(hidden_layer_sizes=(64, 32), max_iter=1000, random_state=42) # Lecture 7
+    "Lasso (L1 Regularization)": Lasso(alpha=0.001),
+    "Random Forest": RandomForestRegressor(n_estimators=100, random_state=42),
+    "XGBoost": xgb.XGBRegressor(objective='reg:squarederror', random_state=42),
+    "Neural Network (MLP)": MLPRegressor(hidden_layer_sizes=(64, 32), max_iter=1000, random_state=42)
 }
 
 # Training and Evaluation
@@ -145,7 +144,7 @@ print("\n" + "="*30)
 print("TRACK 2: CLASSIFICATION (High vs Low Efficiency)")
 print("="*30)
 
-# Discretizing Target (Lecture 4)
+# Discretizing Target
 # Threshold: 0.85 (High Efficiency = 1, Low = 0)
 threshold = 0.85
 y_class = (y > threshold).astype(int)
@@ -158,13 +157,13 @@ X_train_c_scaled = scaler.fit_transform(X_train_c)
 X_test_c_scaled = scaler.transform(X_test_c)
 
 class_models = {
-    "Logistic Regression": LogisticRegression(), # Lecture 4
-    "KNN (k=5)": KNeighborsClassifier(n_neighbors=5), # Lecture 4
-    "SVM (RBF Kernel)": SVC(kernel='rbf'), # Lecture 2.6 / 4
-    "Random Forest Clf": RandomForestClassifier(n_estimators=100, random_state=42) # Lecture 6
+    "Logistic Regression": LogisticRegression(),
+    "KNN (k=5)": KNeighborsClassifier(n_neighbors=5),
+    "SVM (RBF Kernel)": SVC(kernel='rbf'),
+    "Random Forest Clf": RandomForestClassifier(n_estimators=100, random_state=42)
 }
 
-# K-Fold Cross Validation (Lecture 5 - Model Selection)
+# K-Fold Cross Validation
 kfold = KFold(n_splits=5, shuffle=True, random_state=42)
 
 print(f"{'Model':<25} | {'Accuracy':<10} | {'CV Mean Acc':<10}")
@@ -178,12 +177,12 @@ for name, model in class_models.items():
     # Metrics
     acc = accuracy_score(y_test_c, preds_c)
 
-    # Cross Validation (Lecture 5)
+    # Cross Validation
     cv_results = cross_val_score(model, X_train_c_scaled, y_train_c, cv=kfold, scoring='accuracy')
 
     print(f"{name:<25} | {acc:<10.4f} | {cv_results.mean():<10.4f}")
 
-# Confusion Matrix for Random Forest (Lecture 4)
+# Confusion Matrix for Random Forest
 rf_clf = class_models["Random Forest Clf"]
 y_pred_rf = rf_clf.predict(X_test_c_scaled)
 cm = confusion_matrix(y_test_c, y_pred_rf)
@@ -196,7 +195,7 @@ plt.title('Confusion Matrix: Random Forest Classifier')
 plt.show()
 
 # ---------------------------------------------------------
-# 6. FEATURE IMPORTANCE (Lecture 6 - Random Forest)
+# 6. FEATURE IMPORTANCE
 # ---------------------------------------------------------
 print("\n" + "="*30)
 print("FEATURE IMPORTANCE ANALYSIS")
