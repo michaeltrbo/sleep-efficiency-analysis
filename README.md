@@ -33,7 +33,9 @@ Sleep quality is an essential part of overall health, and it’s not always easy
 
 We examined correlations between physiological and lifestyle variables to understand how they relate to sleep efficiency.
 
-**Figure 1:** Correlation matrix visualizing feature relationships.
+**Figure 1: Correlation matrix**
+
+![Feature Correlation Matrix](public/Feature_Corr_Matrix.png)
 
 ---
 
@@ -95,7 +97,9 @@ The MLP struggled due to the small dataset (452 samples), which typically isn’
 | Logistic Regression | 0.9121   | 0.8753      |
 | KNN (k = 5)         | 0.8571   | 0.8144      |
 
-**Figure 2:** Confusion matrix for Random Forest Classifier.
+**Figure 2: Random Forest Confusion Matrix**
+
+![Random Forest Confusion Matrix](public/Rand_Forest_Matrix.png)
 
 **Insight:** Both SVM and Random Forest showed excellent generalization, with accuracy above **93%**.
 
@@ -105,7 +109,9 @@ The MLP struggled due to the small dataset (452 samples), which typically isn’
 
 Using the Random Forest Regressor, we extracted feature importance scores.
 
-**Figure 3:** Random Forest feature importance plot.
+**Figure 3: Feature Importances**
+
+![Feature Importances](public/Feature_Importances.png)
 
 ### **Top 3 Predictive Features**
 
@@ -124,7 +130,7 @@ To run the analysis:
 
 1. Clone the repository.  
 2. Place **Sleep_Efficiency.csv** in the project root.  
-3. Add the images (`image_4b9c7a.png`, `image_4b9f60.png`, `image_4b9f66.png`) to the root directory, or update paths accordingly.  
+3. Ensure the image files are inside the `public/` directory.  
 4. Run the Jupyter Notebook or script locally or in Google Colab.
 
 Install dependencies:
