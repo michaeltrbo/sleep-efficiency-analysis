@@ -1,6 +1,7 @@
 # Sleep Efficiency Analysis and Prediction
 
 **Course:** DS 3000
+
 **Group Members:** Tyler Lafond, Michael Trbovic, Murede Adetiba, Jakub Drotlef
 
 ---
