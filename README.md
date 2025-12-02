@@ -1,140 +1,53 @@
 # Sleep Efficiency Analysis and Prediction
 
-**Course:** DS 3000
+**Course:** DS 3000 / ECE 9611  
+**Group 9:** Tyler Lafond, Michael Trbovic, Murede Adetiba, Jakub Drotlef
 
-**Group Members:** Tyler Lafond, Michael Trbovic, Murede Adetiba, Jakub Drotlef
+## 📖 Project Overview
+Sleep quality is a crucial aspect of overall health. This project applies machine learning techniques to predict sleep efficiency and identify the key lifestyle drivers that impact deep sleep. 
 
----
+Our goal was to move beyond simple prediction and provide **actionable insights** into how individuals can improve their sleep quality through controllable behavioral changes.
 
-## Project Overview
+## 📊 Dataset
+We utilized the **Sleep Efficiency Dataset** (originally from Kaggle), containing data for 452 individuals.
+* **Target Variable:** `Sleep efficiency` (0.0 to 1.0)
+* **Key Features:** * **Physiological:** REM sleep %, Deep sleep %, Awakenings.
+    * **Lifestyle:** Alcohol consumption, Caffeine intake, Exercise frequency, Smoking status.
+    * **Demographic:** Age, Gender.
 
-Sleep quality is an essential part of overall health, and it’s not always easy to measure using lifestyle inputs alone. This project applies machine learning to the **Sleep Efficiency Dataset** to:
+## 🛠️ Methodology & Results
 
-- **Predict Sleep Efficiency Score:** A continuous value (0.0–1.0) measuring the ratio of time asleep to time in bed.  
-- **Classify Sleep Quality:** Grouping individuals into **High** or **Low** efficiency categories.  
-- **Identify Key Drivers:** Understanding which physiological and lifestyle factors have the strongest influence on sleep quality.
+The project is divided into three analytical tracks:
 
----
+### Track 1: Regression Analysis
+**Goal:** Predict the exact Sleep Efficiency score.
+* **Models Used:** Linear Regression, Lasso, Random Forest, Neural Network (MLP), XGBoost.
+* **Best Model:** **Random Forest Regressor**
+    * *RMSE:* ~0.05
+    * *R² Score:* ~0.86
+* **Insight:** Tree-based models significantly outperformed linear models, suggesting non-linear relationships between sleep stages and efficiency.
 
-## Dataset
+### Track 2: Classification Analysis
+**Goal:** Classify subjects into "High Efficiency" vs. "Low Efficiency" (Threshold > 0.85).
+* **Models Used:** Logistic Regression, KNN, SVM, Random Forest Classifier.
+* **Best Model:** **Random Forest Classifier**
+    * *Accuracy:* ~93%
+    * *Confusion Matrix:* showed minimal false negatives, making it robust for identifying poor sleepers.
 
-**Source:** Kaggle – Sleep Efficiency Dataset  
-**Size:** 452 observations  
+### Track 3: Lifestyle Impact (Actionable Insights)
+**Goal:** Isolate controllable habits to answer *"How can I get better sleep?"*
+We stripped away physiological features (like REM sleep) to focus solely on behavioral inputs.
 
-**Features include:**
+**Key Drivers of Deep Sleep (Ranked by Importance):**
+1.  🍷 **Alcohol Consumption (34.2%)** - The #1 suppressor of deep sleep.
+2.  ⏰ **Bedtime Consistency (21.1%)** - Earlier, consistent bedtimes correlate with higher efficiency.
+3.  🏃 **Exercise Frequency (18.7%)** - Regular exercise (3+ times/week) is a strong positive predictor.
+4.  🚬 **Smoking Status (14.3%)** - Smokers consistently showed lower efficiency scores.
+5.  ☕ **Caffeine Consumption (11.6%)** - Surprisingly the least impactful factor in this specific dataset.
 
-- **Demographics:** Age, Gender  
-- **Physiological:** REM sleep %, Deep sleep %, Light sleep %, Awakenings  
-- **Lifestyle:** Caffeine consumption, Alcohol consumption, Smoking status, Exercise frequency  
-- **Target Variable:** Sleep Efficiency
+## 💻 Installation & Usage
 
----
-
-## Exploratory Data Analysis (EDA)
-
-We examined correlations between physiological and lifestyle variables to understand how they relate to sleep efficiency.
-
-**Figure 1: Correlation matrix**
-
-![Feature Correlation Matrix](public/Feature_Corr_Matrix.png)
-
----
-
-## Methodology
-
-We used **5-Fold Cross-Validation** and two modeling tracks.
-
-### **Track 1: Regression (Predicting Efficiency Score)**
-
-Models evaluated:
-
-- **Linear Regression**  
-- **Lasso (L₁)** – for feature selection and regularization  
-- **Random Forest**  
-- **XGBoost**  
-- **Neural Network (MLP)**  
-
----
-
-### **Track 2: Classification (High vs. Low Efficiency)**
-
-Target was binned into:
-
-- **High Efficiency:** > 0.85  
-- **Low Efficiency:** ≤ 0.85  
-
-Models evaluated:
-
-- **Logistic Regression**  
-- **KNN (k = 5)**  
-- **SVM (RBF Kernel)**  
-- **Random Forest Classifier**
-
----
-
-## Results & Analysis
-
-### **1. Regression Performance**
-
-| Model               | RMSE | MAE    | R² Score |
-|--------------------|------|--------|----------|
-| Random Forest      | 0.0512 | 0.0368 | 0.8590 |
-| XGBoost            | 0.0570 | 0.0425 | 0.8256 |
-| Linear Regression  | 0.0621 | 0.0507 | 0.7930 |
-| Lasso (L₁)         | 0.0622 | 0.0510 | 0.7919 |
-| Neural Network (MLP) | 0.1213 | 0.0975 | 0.2091 |
-
-**Insight:** Random Forest delivered the best performance, explaining nearly **86%** of the variance.  
-The MLP struggled due to the small dataset (452 samples), which typically isn’t enough for deep learning models to converge without heavy tuning.
-
----
-
-### **2. Classification Performance**
-
-| Model               | Accuracy | CV Mean Acc |
-|---------------------|----------|-------------|
-| Random Forest Clf   | 0.9341   | 0.8865      |
-| SVM (RBF Kernel)    | 0.9231   | 0.8892      |
-| Logistic Regression | 0.9121   | 0.8753      |
-| KNN (k = 5)         | 0.8571   | 0.8144      |
-
-**Figure 2: Random Forest Confusion Matrix**
-
-![Random Forest Confusion Matrix](public/Rand_Forest_Matrix.png)
-
-**Insight:** Both SVM and Random Forest showed excellent generalization, with accuracy above **93%**.
-
----
-
-## Key Findings: Feature Importance
-
-Using the Random Forest Regressor, we extracted feature importance scores.
-
-**Figure 3: Feature Importances**
-
-![Feature Importances](public/Feature_Importances.png)
-
-### **Top 3 Predictive Features**
-
-1. **Light sleep % (38.0%)** – Lower values generally align with better efficiency.  
-2. **Deep sleep % (35.5%)** – Strongest positive indicator of restful sleep.  
-3. **Awakenings (13.4%)** – Frequent disruptions heavily reduce efficiency.
-
-**Lifestyle Effects:**  
-Alcohol consumption showed a notable negative correlation with efficiency, though physiological factors dominated overall.
-
----
-
-## Usage
-
-To run the analysis:
-
-1. Clone the repository.  
-2. Place **Sleep_Efficiency.csv** in the project root.  
-3. Ensure the image files are inside the `public/` directory.  
-4. Run the Jupyter Notebook or script locally or in Google Colab.
-
-Install dependencies:
-
+### 1. Requirements
+Ensure you have Python 3.x and the following libraries installed:
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn xgboost
