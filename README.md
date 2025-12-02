@@ -120,15 +120,15 @@ We isolated the lifestyle variables to see which factors specifically drive **De
 
 **Figure 4: Lifestyle Impact Analysis**
 
-![Lifestyle Impact Analysis](public/Deep sleep Graph.png)
+![Lifestyle Impact Analysis](public/Lifestyle_Impact.png)
 
 **Key Drivers of Deep Sleep (Ranked by Importance):**
 
--**#1 Alcohol Consumption (34.2%)** – The biggest disruptor of restorative sleep.  
--**#2 Bedtime Timing (21.1%)** – Going to bed at a consistent, earlier hour matters.  
--**#3 Exercise Frequency (18.7%)** – Regular physical activity promotes deeper rest.  
--**#4 Smoking Status (14.3%)** – Smokers showed consistently lower deep sleep metrics.  
--**#5 Caffeine Consumption (11.6%)** – Least impactful relative to the others.
+- **#1 Alcohol Consumption (34.2%)** – The biggest disruptor of restorative sleep.
+- **#2 Bedtime Timing (21.1%)** – Going to bed at a consistent, earlier hour matters.
+- **#3 Exercise Frequency (18.7%)** – Regular physical activity promotes deeper rest.
+- **#4 Smoking Status (14.3%)** – Smokers showed consistently lower deep sleep metrics.
+- **#5 Caffeine Consumption (11.6%)** – Least impactful relative to the others.
 
 ---
 
