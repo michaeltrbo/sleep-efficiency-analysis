@@ -120,7 +120,7 @@ We isolated the lifestyle variables to see which factors specifically drive **De
 
 **Figure 4: Lifestyle Impact Analysis**
 
-![Lifestyle Impact Analysis](public/Lifestyle_Impact.png)
+![Lifestyle Impact Analysis](public/Deep sleep Graph.png)
 
 **Key Drivers of Deep Sleep (Ranked by Importance):**
 
