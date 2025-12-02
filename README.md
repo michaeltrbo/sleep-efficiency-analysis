@@ -118,17 +118,22 @@ While physiological stages (Deep/Light sleep) determine the score, we analyzed *
 
 We isolated the lifestyle variables to see which factors specifically drive **Deep Sleep Percentage**.
 
-**Figure 4: Lifestyle Impact Analysis**
+**Figure 4: Lifestyle Impact Feature Importance**
 
-![Lifestyle Impact Analysis](public/Lifestyle_Impact.png)
+![Lifestyle Impact Feature Importance](public/FactorsAffectingDeepSleep1.png)
+
+**Figure 5: Lifestyle Impact Feature Correlation**
+
+![Lifestyle Impact Feature Correlation](public/FactorsAffectingDeepSleep2.png)
 
 **Key Drivers of Deep Sleep (Ranked by Importance):**
 
-- **#1 Alcohol Consumption (34.2%)** – The biggest disruptor of restorative sleep.
-- **#2 Bedtime Timing (21.1%)** – Going to bed at a consistent, earlier hour matters.
-- **#3 Exercise Frequency (18.7%)** – Regular physical activity promotes deeper rest.
-- **#4 Smoking Status (14.3%)** – Smokers showed consistently lower deep sleep metrics.
-- **#5 Caffeine Consumption (11.6%)** – Least impactful relative to the others.
+- **#1 Alcohol consumption (27.57%)** - The biggest disruptor of restorative sleep.
+- **#2 Age (13.72%)** - Percent of time in deep sleep lowers with age.
+- **#3 Smoking status_Yes (13.38%)** - Smokers showed consistently lower deep sleep metrics.
+- **#4 REM sleep percentage (11.62%)** - High REM sleep percentage is a sign of more deep sleep.
+- **#5 Awakenings (10.91%)** - Frequently waking means the body can't spend as much time in deep sleep.
+- **#6 Exercise frequency (10.71%)**  - Regular physical activity promotes deeper rest.
 
 ---
 
