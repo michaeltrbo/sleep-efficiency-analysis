@@ -126,6 +126,8 @@ We isolated the lifestyle variables to see which factors specifically drive **De
 
 ![Lifestyle Impact Feature Correlation](public/FactorsAffectingDeepSleep2.png)
 
+Using the correlation graph we can see what kind of effect a factors has, positive or negative, and the feature importance chart shows us how much each feature actually affects the models output.
+
 **Key Drivers of Deep Sleep (Ranked by Importance):**
 
 - **#1 Alcohol consumption (27.57%)** - The biggest disruptor of restorative sleep.
