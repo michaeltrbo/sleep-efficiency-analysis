@@ -32,7 +32,6 @@ try:
     import xgboost as xgb
 except ImportError:
     print("Installing XGBoost...")
-    !pip install xgboost
     import xgboost as xgb
 
 # Visual Settings
@@ -218,3 +217,95 @@ plt.show()
 print("Top 3 Predictive Features:")
 for i in range(3):
     print(f"{i+1}. {X.columns[indices[i]]} ({importances[indices[i]]:.4f})")
+    # ---------------------------------------------------------
+# 7. TRACK 3: LIFESTYLE IMPACT ANALYSIS (Actionable Insights)
+# Goal: Determine HOW to improve sleep by isolating controllable factors.
+# ---------------------------------------------------------
+import warnings
+warnings.filterwarnings("ignore") 
+
+print("\n" + "="*30)
+print("TRACK 3: LIFESTYLE IMPACT ANALYSIS")
+print("="*30)
+
+df_lifestyle = pd.read_csv('Sleep_Efficiency.csv')
+
+# --- Re-apply Basic Cleaning ---
+df_lifestyle['Awakenings'] = df_lifestyle['Awakenings'].fillna(df_lifestyle['Awakenings'].median())
+df_lifestyle['Caffeine consumption'] = df_lifestyle['Caffeine consumption'].fillna(0)
+df_lifestyle['Alcohol consumption'] = df_lifestyle['Alcohol consumption'].fillna(0)
+df_lifestyle['Exercise frequency'] = df_lifestyle['Exercise frequency'].fillna(0)
+df_lifestyle['Smoking_Numeric'] = df_lifestyle['Smoking status'].apply(lambda x: 1 if x == 'Yes' else 0)
+
+# 1. Feature Engineering: Parse Bedtime
+df_lifestyle['Bedtime'] = pd.to_datetime(df_lifestyle['Bedtime'])
+df_lifestyle['Bedtime_Hour'] = df_lifestyle['Bedtime'].dt.hour
+
+def adjust_bedtime(h):
+    if h >= 18: return h - 18
+    else: return h + 6
+
+df_lifestyle['Bedtime_Adjusted'] = df_lifestyle['Bedtime_Hour'].apply(adjust_bedtime)
+
+# 2. Train Model for Deep Sleep Drivers
+lifestyle_cols = ['Alcohol consumption', 'Caffeine consumption', 'Exercise frequency', 'Smoking_Numeric', 'Bedtime_Adjusted']
+rf_lifestyle = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_lifestyle.fit(df_lifestyle[lifestyle_cols], df_lifestyle['Deep sleep percentage'])
+
+importances_ls = pd.Series(rf_lifestyle.feature_importances_, index=lifestyle_cols).sort_values(ascending=False)
+
+# 3. PRINT OUTPUTS (Formatted as Percentage)
+print("Top Lifestyle Factors affecting Deep Sleep:")
+print(importances_ls.map('{:.2%}'.format))
+
+# 4. Generate the Visualization (Warnings Fixed)
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+sns.barplot(
+    data=df_lifestyle, 
+    x='Alcohol consumption', 
+    y='Sleep efficiency', 
+    hue='Alcohol consumption', 
+    legend=False, 
+    ax=axes[0,0], 
+    palette='coolwarm'
+)
+axes[0,0].set_title('Alcohol vs. Sleep Efficiency')
+
+sns.barplot(
+    data=df_lifestyle, 
+    x='Exercise frequency', 
+    y='Sleep efficiency', 
+    hue='Exercise frequency',   
+    legend=False,
+    ax=axes[0,1], 
+    palette='viridis'
+)
+axes[0,1].set_title('Exercise Frequency vs. Sleep Efficiency')
+
+sns.boxplot(
+    data=df_lifestyle, 
+    x='Smoking status', 
+    y='Sleep efficiency', 
+    hue='Smoking status',      
+    legend=False,
+    ax=axes[1,0], 
+    palette='Set2'
+)
+axes[1,0].set_title('Smoking Status vs. Efficiency')
+
+bedtime_order = sorted(df_lifestyle['Bedtime_Hour'].unique(), key=lambda x: adjust_bedtime(x))
+sns.boxplot(
+    data=df_lifestyle, 
+    x='Bedtime_Hour', 
+    y='Sleep efficiency', 
+    hue='Bedtime_Hour',        
+    legend=False,
+    order=bedtime_order, 
+    ax=axes[1,1], 
+    palette='magma'
+)
+axes[1,1].set_title('Bedtime Hour vs. Efficiency')
+
+plt.tight_layout()
+plt.show()
