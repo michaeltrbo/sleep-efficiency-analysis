@@ -217,7 +217,7 @@ plt.show()
 print("Top 3 Predictive Features:")
 for i in range(3):
     print(f"{i+1}. {X.columns[indices[i]]} ({importances[indices[i]]:.4f})")
-    # ---------------------------------------------------------
+ # ---------------------------------------------------------
 # 7. TRACK 3: LIFESTYLE IMPACT ANALYSIS (Actionable Insights)
 # Goal: Determine HOW to improve sleep by isolating controllable factors.
 # ---------------------------------------------------------
